@@ -1,0 +1,16 @@
+[Unit]
+Description=JMX Exporter
+Documentation=https://github.com/prometheus/jmx_exporter
+After=kafka.target zookeeper.target
+
+[Service]
+Type=simple
+User=jmx_exporter
+Group=jmx_exporter
+EnvironmentFile=/etc/environment
+ExecStart=/usr/lib/jvm/master-java/bin/java -jar /opt/jmx_exporter/jmx_exporter.jar 0.0.0.0:7070 /etc/jmx_exporter.yml
+TimeoutStopSec=180
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

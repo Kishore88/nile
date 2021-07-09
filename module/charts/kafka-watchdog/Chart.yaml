@@ -1,0 +1,4 @@
+apiVersion: v1
+description: Chart for kafka-watchdog, which can be used to monitor kafka clusters, eg data river
+name: kafka-watchdog
+version: 0.1.5

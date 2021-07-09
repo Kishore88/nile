@@ -1,0 +1,14 @@
+#!/bin/bash -xe
+# check if it runs as root
+[ "$(id -u)" != "0" ] && echo "ERROR: The script needs to be executed as root user.." && exit 1
+
+DEB_FILE=/tmp/amazon-ssm-agent.deb
+DEPLOYMENT_REGION=cn-northwest-1
+
+#apt remove -y amazon-ssm-agent
+dpkg --configure -a
+
+curl -XGET -O amazon-ssm-agent.db "https://s3.${DEPLOYMENT_REGION}.amazonaws.com.cn/amazon-ssm-${DEPLOYMENT_REGION}/latest/debian_amd64/amazon-ssm-agent.deb" -o $DEB_FILE
+
+apt install $DEB_FILE
+rm $DEB_FILE

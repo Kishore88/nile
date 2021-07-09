@@ -1,0 +1,5 @@
+ZOO_LOG_DIR=%%ZOO_LOG_DIR||/var/log/zookeeper%%
+ZOO_LOG4J_PROP=INFO,ROLLINGFILE
+JMXPORT=%%JMX_PORT||12888%%
+SERVER_JVMFLAGS='-server -Dfile.encoding=utf-8 -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+ExitOnOutOfMemoryError -Dzookeeper.log.maxfilesize=10Mb -Dzookeeper.log.maxbackupindex=10'
+ZK_SERVER_HEAP=%%MAX_MEM||1024%%

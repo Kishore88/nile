@@ -1,0 +1,23 @@
+#
+# PRESET CONFIGS
+#
+tickTime=2000
+clientPort=2181
+initLimit=5
+syncLimit=2
+autopurge.snapRetainCount=3
+autopurge.purgeInterval=24
+
+
+#
+# USER CONFIG
+#
+%%prefix[case=camel,sep=]>ZKCFG_%%
+
+#
+# FIXED CONFIGURATION PROPERTIES
+#
+# THESE PROPERTIES CANNOT BE CHANGED AS THEY ARE FUNDAMENTAL TO THE
+# CORRECT OPERATION
+#
+dataDir=%%ZK_DATA_DIR||/var/lib/zookeeper%%

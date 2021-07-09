@@ -1,0 +1,39 @@
+{
+  "variables": {
+      "ami_prefix": "{{env `TF_VAR_ami_prefix`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "eu-west-1",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "099720109477"
+        ],
+        "most_recent": true
+      },
+      "instance_type": "t3.micro",
+      "encrypt_boot":  true,
+      "ssh_username": "ubuntu",
+      "ami_name": "{{user `ami_prefix`}}nile-kafka-tools-ubuntu-{{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; sudo env {{ .Vars }} {{ .Path }} kafka-tools",
+        "scripts": [
+            "scripts/installer-tools-extra.sh",
+            "scripts/installer-java.sh",
+            "scripts/installer-tools.sh",
+            "scripts/installer-confluent-tools.sh",
+            "scripts/installer-cleanup.sh"
+        ]
+    }
+  ]
+}

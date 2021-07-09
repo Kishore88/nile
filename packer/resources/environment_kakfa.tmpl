@@ -1,0 +1,4 @@
+JMX_PORT=%%JMX_PORT||12888%%
+KAFKA_JVM_PERFORMANCE_OPTS='%%KAFKA_JVM_PERFORMANCE_OPTS||-server -Dfile.encoding=utf-8 -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC -XX:+ExitOnOutOfMemoryError -Dkafka.log.maxfilesize=10MB -Dkafka.log.maxbackupindex=10%% -Djava.security.auth.login.config=%%AUTH_LOGIN_CONFIG||/etc/kafka/kafka.jaas%%'
+KAFKA_HEAP_OPTS='-Xmx%%MAX_MEM||1024%%M -Xms%%MAX_MEM||1024%%M'
+

@@ -1,0 +1,25 @@
+# Default values for kafka-watchdog.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+image:
+  repository: 123456789.dkr.ecr.eu-west-1.amazonaws.com/apps/kafka-watchdog
+  tag: stable
+  pullPolicy: IfNotPresent
+
+service:
+  name: kafka-watchdog
+  type: ClusterIP
+  externalPort: 8080
+  internalPort: 8080
+
+ingress:
+  enabled: false
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+resources: {}

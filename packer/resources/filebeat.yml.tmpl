@@ -1,0 +1,64 @@
+fields:
+  cluster_name: "%%TAG_DEPLOYMENT_NAME||unknown%%"
+  env: "%%TAG_ENVIRONMENT||unknown%%"
+  node_type: "%%SERVICE_NAME||unknown%%"
+
+filebeat.inputs:
+
+- type: log
+  enabled: true
+
+  paths:
+    - /var/log/zookeeper/zookeeper-*.log
+
+  ### Multiline options
+  multiline.pattern: ^[0-9]{4}-[0-9]{2}-[0-9]{2}
+  multiline.negate: true
+  multiline.match: after
+
+
+# Kafka GC logs (very verbose)
+#- type: log
+#  enabled: true
+# 
+#  paths:
+#    - /opt/kafka/logs/kafkaServer-gc.log*
+# 
+#  ### Multiline options
+#  multiline.pattern: ^\[[0-9]{4}-[0-9]{2}-[0-9]{2}
+#  multiline.negate: true
+#  multiline.match: after
+
+
+setup.ilm.enabled: false
+setup.template.name: "kafka-cluster"
+setup.template.pattern: "kafka-*"
+setup.template.settings:
+  index.number_of_shards: 5
+  #index.codec: best_compression
+  #_source.enabled: false
+
+output.elasticsearch:
+  hosts: ["%%ELS_HOSTNAME||127.0.0.1%%:443"]
+  protocol: "https"
+  index: "kafka-%{+yyyy.MM.dd}"
+  #username: "elastic"
+  #password: "changeme"
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+
+
+filebeat.modules:
+  - module: kafka
+    log:
+      enabled: true
+      var.kafka_home: "/opt/kafka"
+      var.paths:
+        - "/opt/kafka/logs/server.log*"
+        - "/opt/kafka/logs/controller.log*"
+        - "/opt/kafka/logs/state-change.log*"
+        - "/opt/kafka/logs/kafka-authorizer.log*"
+        - "/opt/kafka/logs/kafka-request.log*"
+        - "/opt/kafka/logs/log-cleaner.log*"

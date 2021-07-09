@@ -1,0 +1,53 @@
+{
+  "variables": {
+     "ami_prefix": "{{env `TF_VAR_ami_prefix`}}"
+  },
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "region": "eu-west-1",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "debian-stretch-hvm-x86_64-gp2-*",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "379101102735"
+        ],
+        "most_recent": true
+      },
+      "instance_type": "t3.micro",
+      "encrypt_boot":  true,
+      "ssh_username": "admin",
+      "ami_name": "{{user `ami_prefix`}}nile-zookeeper-stretch-{{timestamp}}"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": "mkdir -p /tmp/packer/resources"
+    },
+    {
+      "type": "file",
+      "source": "resources/",
+      "destination": "/tmp/packer/resources"
+    },
+    {
+      "type": "shell",
+      "execute_command": "chmod +x {{ .Path }}; sudo env {{ .Vars }} {{ .Path }} zookeeper",
+        "scripts": [
+            "scripts/installer-base.sh",
+            "scripts/installer-java.sh",
+            "scripts/installer-zookeeper.sh",
+            "scripts/installer-tools.sh",
+            "scripts/installer-synapse.sh",
+            "scripts/installer-jmx-exporter.sh",
+            "scripts/installer-node-exporter.sh",
+            "scripts/installer-filebeat.sh",
+            "scripts/installer-ssm-agent.sh",
+            "scripts/installer-cleanup.sh"
+        ]
+    }
+  ]
+}

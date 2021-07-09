@@ -1,0 +1,6 @@
+KafkaServer {
+  org.apache.kafka.common.security.scram.ScramLoginModule optional
+  dynamodb_scram_store_table_name="%%SECURITY_SCRAM_DYNAMODB_TABLE_NAME%%"
+  dynamodb_scram_store_region="%%DEPLOYMENT_REGION||eu-west-1%%"
+  ;
+};

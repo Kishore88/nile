@@ -1,0 +1,19 @@
+[Unit]
+Description=Apache Kafka - broker
+Documentation=http://docs.confluent.io/
+After=network.target
+
+[Service]
+Type=simple
+User=kafka
+Group=kafka
+EnvironmentFile=/etc/environment
+EnvironmentFile=/etc/environment_kafka
+LimitNOFILE=65535
+ExecStart=/opt/kafka/bin/kafka-server-start.sh /etc/kafka/kafka.properties
+TimeoutStopSec=180
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target

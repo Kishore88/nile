@@ -1,0 +1,16 @@
+[Unit]
+Description=Node Exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=kafka.target zookeeper.target
+
+[Service]
+Type=simple
+User=node_exporter
+Group=node_exporter
+EnvironmentFile=/etc/environment
+ExecStart=/usr/bin/node_exporter
+TimeoutStopSec=180
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

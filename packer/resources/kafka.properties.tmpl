@@ -1,0 +1,39 @@
+#
+# PRESET CONFIGS
+#
+
+# Threads and network
+num.recovery.threads.per.data.dir=3
+zookeeper.connection.timeout.ms=6000
+
+# topic and partitions
+num.partitions=12
+default.replication.factor=3
+min.insync.replicas=2
+
+# logs
+
+# retention of two weeks +
+log.retention.hours=340
+
+# security
+ssl.keystore.location = /etc/kafka/ssl/kafka.server.keystore.jks
+
+#
+# USER CONFIG
+#
+%%prefix>KFKCFG_%%
+
+#
+# FIXED CONFIGURATION PROPERTIES
+#
+# THESE PROPERTIES CANNOT BE CHANGED AS THEY ARE FUNDAMENTAL TO THE
+# CORRECT OPERATION
+#
+zookeeper.connect=%%ZOOKEEPER_IPS%%
+log.dirs=%%KAFKA_DATA_DIR||/var/lib/kafka%%
+broker.id=%%MYID%%
+
+# SCRAM
+listener.name.sasl_ssl.scram-sha-256.sasl.server.callback.handler.class=%%SECURITY_SCRAM_CALLBACK_HANDLER||%%
+listener.name.sasl_ssl.scram-sha-512.sasl.server.callback.handler.class=%%SECURITY_SCRAM_CALLBACK_HANDLER||%%
